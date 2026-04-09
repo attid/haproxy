@@ -1,0 +1,16 @@
+services:
+  haproxy:
+    image: ghcr.io/attid/haproxy:latest
+    restart: unless-stopped
+    command:
+      - 30000:simon:30000
+      - 8088:dozzle:8080
+    ports:
+      - "1.1.1.1:30000:30000"
+      - "1.1.1.1:8088:8088"
+    networks:
+      gateway:
+
+networks:
+  gateway:
+    external: true
