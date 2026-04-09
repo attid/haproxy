@@ -1,10 +1,20 @@
 # haproxy
 
-Обёртка над [haproxy:3.3](https://hub.docker.com/_/haproxy) для простого TCP-проксирования.
+A lightweight wrapper around [haproxy:3.3](https://hub.docker.com/_/haproxy) for simple TCP proxying.
 
-Вместо ручного написания frontend/backend — передаёшь правила аргументами в формате `listen_port:host:port`.
+Instead of writing frontend/backend blocks manually, just pass rules as arguments in the format `listen_port:host:backend_port`.
 
-## Использование
+## Format
+
+```
+listen_port:host:backend_port
+```
+
+- **listen_port** — port HAProxy listens on inside the container
+- **host** — backend container hostname (Docker service name)
+- **backend_port** — port on the backend container to forward traffic to
+
+## Usage
 
 ```yaml
 services:
@@ -25,11 +35,11 @@ networks:
     external: true
 ```
 
-Добавить новый сервис — 2 строки:
+To add a new service — just 2 lines:
 
 ```yaml
     command:
-      - 9090:prometheus:9090  # новый
+      - 9090:prometheus:9090  # new
     ports:
-      - "1.1.1.1:9090:9090"  # новый
+      - "1.1.1.1:9090:9090"  # new
 ```
